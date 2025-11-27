@@ -38,15 +38,15 @@ class ElectricScooter(Vehicle):
         self.battery_percentage -= distance
         if self.battery_percentage < 0:
             self.battery_percentage = 0
+
+    def get_info(self):
+        return f"{self.make} {self.model}, a {self.year} model with {self._mileage}km mileage and {self.battery_percentage}% charge left"
+    
     
     @staticmethod
     def is_charging_required(battery_percentage):
         return battery_percentage < 20
     
-
-def print_vehicle_report(vehicles):
-    return vehicles.get_info()
-
 vehicles = [
     Car("Toyota", "Corolla", 2020, 50),
     ElectricScooter("Xiaomi", "M365", 2022, 85),
