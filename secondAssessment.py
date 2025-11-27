@@ -3,20 +3,21 @@ class Vehicle:
         self.make = make
         self.model = model
         self.year = year
-        self.__mileage = mileage
+        self._mileage = mileage
 
     def drive(self, distance):
-        self.__mileage += distance
+        self._mileage += distance
 
     def get_info(self):
-        return f"This is a {self.make}, {self.model}, a {self.year} model with {self.__mileage}"
+        return f"{self.make} {self.model} {self.year} model with {self._mileage}km mileage"
     
     def __str__(self):
-        return (
-            f"{self.year} {self.make} {self.model} | "
-            f"Mileage: {self.mileage} km | "
-            f"Battery: {self.battery_percentage}%"
-        )
+        return f"{self.year} {self.make} {self.model} Mileage: {self._mileage} km"
+
+    @classmethod
+    def from_string(cls, vehicle_str):
+        make, model, year = vehicle_str.split("-")
+        return cls(make, model, year)
 
 class Car(Vehicle):
     vehicle_type = "Car"
@@ -25,7 +26,7 @@ class Car(Vehicle):
         self.fuel_capacity = fuel_capacity
     
     def get_info(self):
-        return f"This is a {self.make}, {self.model}, a {self.year} model with {self.__mileage} and {self.fuel_capacity} litres fuel capacity"
+        return f"{self.make} {self.model}, a {self.year} model with {self._mileage}km mileage and {self.fuel_capacity} L fuel capacity"
     
 
 class ElectricScooter(Vehicle):
@@ -37,6 +38,25 @@ class ElectricScooter(Vehicle):
         self.battery_percentage -= distance
         if self.battery_percentage < 0:
             self.battery_percentage = 0
-
+    
+    @staticmethod
     def is_charging_required(battery_percentage):
         return battery_percentage < 20
+    
+
+def print_vehicle_report(vehicles):
+    return vehicles.get_info()
+
+vehicles = [
+    Car("Toyota", "Corolla", 2020, 50),
+    ElectricScooter("Xiaomi", "M365", 2022, 85),
+    Vehicle.from_string("Honda-Civic-2018")
+]
+
+def print_vehicle_report(vehicles):
+    for v in vehicles:
+        print(v.get_info())
+
+
+print_vehicle_report(vehicles)
+
